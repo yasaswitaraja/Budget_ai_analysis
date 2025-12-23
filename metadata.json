@@ -1,0 +1,5 @@
+{
+  "name": "AI Budget Advisor",
+  "description": "An intelligent financial assistant that analyzes spending, classifies expenses into Needs and Wants, detects overspending patterns, and predicts future expenses using the Gemini API.",
+  "requestFramePermissions": []
+}
