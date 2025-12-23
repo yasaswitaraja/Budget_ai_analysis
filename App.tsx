@@ -13,7 +13,9 @@ import { BudgetInputs, BudgetAdvice } from './types';
 import { getBudgetAdvice } from './services/geminiService';
 import { InputGroup } from './components/InputGroup';
 
-const COLORS = ['#3b82f6', '#ef4444', '#10b981'];
+// Updated high-contrast, professional palette
+// [Needs (Indigo), Wants (Amber), Savings (Emerald)]
+const COLORS = ['#4f46e5', '#f59e0b', '#10b981'];
 
 const App: React.FC = () => {
   const [inputs, setInputs] = useState<BudgetInputs>({
@@ -58,7 +60,7 @@ const App: React.FC = () => {
 
   const comparisonData = advice ? [
     {
-      name: 'Total Expenses',
+      name: 'Expenses',
       current: advice.summary.total_expenses,
       predicted: advice.next_month_prediction.estimated_total
     },
@@ -70,16 +72,16 @@ const App: React.FC = () => {
   ] : [];
 
   return (
-    <div className="min-h-screen pb-12 bg-gray-50">
+    <div className="min-h-screen pb-12 bg-gray-50/50">
       {/* Header */}
-      <header className="bg-white border-b sticky top-0 z-50">
+      <header className="bg-white border-b sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="bg-blue-600 p-2 rounded-lg">
-              <Wallet className="text-white w-6 h-6" />
+            <div className="bg-indigo-600 p-2 rounded-xl">
+              <Wallet className="text-white w-5 h-5" />
             </div>
-            <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-              AI Budget Advisor
+            <h1 className="text-xl font-extrabold tracking-tight text-gray-900">
+              AI Budget <span className="text-indigo-600">Advisor</span>
             </h1>
           </div>
         </div>
@@ -90,54 +92,67 @@ const App: React.FC = () => {
           
           {/* Input Panel */}
           <section className="lg:col-span-4 space-y-6">
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
               <div className="flex items-center gap-2 mb-6">
-                <Coins className="text-blue-500 w-5 h-5" />
-                <h2 className="text-lg font-semibold">Your Financials</h2>
+                <div className="p-1.5 bg-indigo-50 rounded-lg">
+                  <Coins className="text-indigo-600 w-5 h-5" />
+                </div>
+                <h2 className="text-lg font-bold text-gray-800">Financial Entries</h2>
               </div>
 
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-xs font-bold uppercase text-gray-400 mb-3 tracking-wider">Income</h3>
+                  <h3 className="text-xs font-bold uppercase text-gray-400 mb-3 tracking-widest flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Primary Income
+                  </h3>
                   <InputGroup
                     label="Monthly Income"
                     name="income"
                     value={inputs.income}
                     onChange={handleInputChange}
-                    icon={<Sparkles className="w-4 h-4 text-amber-500" />}
+                    icon={<Sparkles className="w-4 h-4 text-emerald-500" />}
+                    colorClass="text-emerald-600"
+                    focusClass="focus:ring-emerald-500"
                   />
                 </div>
 
                 <div>
-                  <h3 className="text-xs font-bold uppercase text-gray-400 mb-3 tracking-wider">Needs</h3>
+                  <h3 className="text-xs font-bold uppercase text-gray-400 mb-3 tracking-widest flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                    Essential Needs
+                  </h3>
                   <div className="grid grid-cols-1 gap-4">
-                    <InputGroup label="Rent" name="rent" value={inputs.rent} onChange={handleInputChange} icon={<Home className="w-4 h-4 text-blue-400" />} />
-                    <InputGroup label="Food" name="food" value={inputs.food} onChange={handleInputChange} icon={<Utensils className="w-4 h-4 text-blue-400" />} />
-                    <InputGroup label="Travel" name="travel" value={inputs.travel} onChange={handleInputChange} icon={<Plane className="w-4 h-4 text-blue-400" />} />
-                    <InputGroup label="Loans" name="loans" value={inputs.loans} onChange={handleInputChange} icon={<CreditCard className="w-4 h-4 text-blue-400" />} />
+                    <InputGroup label="Rent" name="rent" value={inputs.rent} onChange={handleInputChange} icon={<Home className="w-4 h-4 text-indigo-500" />} colorClass="text-indigo-600" focusClass="focus:ring-indigo-500" />
+                    <InputGroup label="Food" name="food" value={inputs.food} onChange={handleInputChange} icon={<Utensils className="w-4 h-4 text-indigo-500" />} colorClass="text-indigo-600" focusClass="focus:ring-indigo-500" />
+                    <InputGroup label="Travel" name="travel" value={inputs.travel} onChange={handleInputChange} icon={<Plane className="w-4 h-4 text-indigo-500" />} colorClass="text-indigo-600" focusClass="focus:ring-indigo-500" />
+                    <InputGroup label="Loans" name="loans" value={inputs.loans} onChange={handleInputChange} icon={<CreditCard className="w-4 h-4 text-indigo-500" />} colorClass="text-indigo-600" focusClass="focus:ring-indigo-500" />
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-xs font-bold uppercase text-gray-400 mb-3 tracking-wider">Wants</h3>
+                  <h3 className="text-xs font-bold uppercase text-gray-400 mb-3 tracking-widest flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    Discretionary Wants
+                  </h3>
                   <div className="grid grid-cols-1 gap-4">
-                    <InputGroup label="Shopping" name="shopping" value={inputs.shopping} onChange={handleInputChange} icon={<ShoppingCart className="w-4 h-4 text-pink-400" />} />
-                    <InputGroup label="Entertainment" name="entertainment" value={inputs.entertainment} onChange={handleInputChange} icon={<PieIcon className="w-4 h-4 text-pink-400" />} />
-                    <InputGroup label="Luxury" name="luxury" value={inputs.luxury} onChange={handleInputChange} icon={<Sparkles className="w-4 h-4 text-pink-400" />} />
+                    <InputGroup label="Shopping" name="shopping" value={inputs.shopping} onChange={handleInputChange} icon={<ShoppingCart className="w-4 h-4 text-amber-500" />} colorClass="text-amber-600" focusClass="focus:ring-amber-500" />
+                    <InputGroup label="Entertainment" name="entertainment" value={inputs.entertainment} onChange={handleInputChange} icon={<PieIcon className="w-4 h-4 text-amber-500" />} colorClass="text-amber-600" focusClass="focus:ring-amber-500" />
+                    <InputGroup label="Luxury" name="luxury" value={inputs.luxury} onChange={handleInputChange} icon={<Sparkles className="w-4 h-4 text-amber-500" />} colorClass="text-amber-600" focusClass="focus:ring-amber-500" />
                   </div>
                 </div>
 
                 <button
                   onClick={handleAnalyze}
                   disabled={loading}
-                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-semibold py-3 px-4 rounded-xl shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 text-white font-bold py-4 px-4 rounded-2xl shadow-xl shadow-indigo-100 transition-all flex items-center justify-center gap-2 active:scale-95"
                 >
                   {loading ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
                     <>
                       <TrendingUp className="w-5 h-5" />
-                      Get AI Advice
+                      Generate Advisor Insights
                     </>
                   )}
                 </button>
@@ -148,63 +163,83 @@ const App: React.FC = () => {
           {/* Results Panel */}
           <section className="lg:col-span-8 space-y-6">
             {!advice && !loading && !error && (
-              <div className="h-full min-h-[400px] flex flex-col items-center justify-center text-center p-8 bg-white rounded-2xl border border-dashed border-gray-300">
-                <div className="bg-blue-50 p-4 rounded-full mb-4">
-                  <ShieldCheck className="w-12 h-12 text-blue-400" />
+              <div className="h-full min-h-[500px] flex flex-col items-center justify-center text-center p-8 bg-white rounded-3xl border border-dashed border-gray-200">
+                <div className="bg-indigo-50 p-6 rounded-full mb-6">
+                  <ShieldCheck className="w-16 h-16 text-indigo-500" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-800">Ready for Analysis</h3>
-                <p className="text-gray-500 max-w-sm mt-2">
-                  Enter your monthly income and expenses to see AI-powered insights and next-month predictions.
+                <h3 className="text-2xl font-black text-gray-800 tracking-tight">Financial Intelligence Awaits</h3>
+                <p className="text-gray-500 max-w-sm mt-3 leading-relaxed">
+                  Submit your budget details and our AI will categorize your spending, flag concerns, and predict your financial future.
                 </p>
               </div>
             )}
 
             {error && (
-              <div className="p-4 bg-red-50 border border-red-100 rounded-xl text-red-600 flex items-center gap-3">
+              <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl text-rose-600 flex items-center gap-3">
                 <AlertTriangle className="w-5 h-5 flex-shrink-0" />
-                <p>{error}</p>
+                <p className="font-medium">{error}</p>
               </div>
             )}
 
             {loading && (
-              <div className="h-96 flex flex-col items-center justify-center space-y-4">
-                <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
-                <p className="text-gray-500 font-medium animate-pulse">Consulting your AI Advisor...</p>
+              <div className="h-96 flex flex-col items-center justify-center space-y-6">
+                <div className="relative">
+                  <Loader2 className="w-16 h-16 text-indigo-600 animate-spin" />
+                  <div className="absolute inset-0 m-auto w-8 h-8 bg-indigo-100 rounded-full animate-pulse"></div>
+                </div>
+                <div className="text-center">
+                  <p className="text-gray-800 text-lg font-bold">Analyzing your data...</p>
+                  <p className="text-gray-400 text-sm">Classifying needs, wants and identifying patterns.</p>
+                </div>
               </div>
             )}
 
             {advice && !loading && (
-              <div className="space-y-6 animate-in fade-in duration-500">
+              <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
                 
                 {/* Summary Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                    <p className="text-sm font-medium text-gray-400">Monthly Savings</p>
-                    <p className={`text-2xl font-bold mt-1 ${advice.summary.savings >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 group transition-all hover:border-emerald-100">
+                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Savings</p>
+                    <p className={`text-3xl font-black ${advice.summary.savings >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
                       ₹{advice.summary.savings.toLocaleString()}
                     </p>
+                    <div className="mt-2 h-1 w-full bg-emerald-50 rounded-full overflow-hidden">
+                       <div className="h-full bg-emerald-500" style={{ width: `${Math.min(100, Math.max(0, (advice.summary.savings / advice.summary.income) * 100))}%` }}></div>
+                    </div>
                   </div>
-                  <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                    <p className="text-sm font-medium text-gray-400">Total Expenses</p>
-                    <p className="text-2xl font-bold mt-1 text-gray-900">
+                  <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Total Spending</p>
+                    <p className="text-3xl font-black text-gray-900">
                       ₹{advice.summary.total_expenses.toLocaleString()}
                     </p>
+                    <div className="mt-2 h-1 w-full bg-gray-50 rounded-full overflow-hidden">
+                       <div className="h-full bg-indigo-500" style={{ width: `${Math.min(100, (advice.summary.total_expenses / advice.summary.income) * 100)}%` }}></div>
+                    </div>
                   </div>
-                  <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                    <p className="text-sm font-medium text-gray-400">Budget Health</p>
-                    <p className="text-2xl font-bold mt-1 text-blue-600">
-                      {Math.round((advice.summary.savings / advice.summary.income) * 100)}% Saved
+                  <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Savings Rate</p>
+                    <p className="text-3xl font-black text-indigo-600">
+                      {Math.max(0, Math.round((advice.summary.savings / advice.summary.income) * 100))}%
                     </p>
+                    <p className="text-[10px] text-gray-400 mt-2 font-bold uppercase tracking-tighter">of total monthly income</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Expense Distribution */}
-                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-[350px] flex flex-col">
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <PieIcon className="w-5 h-5 text-blue-500" />
-                      Expense Distribution
-                    </h3>
+                  <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 h-[380px] flex flex-col">
+                    <div className="flex items-center justify-between mb-6">
+                       <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                        <PieIcon className="w-5 h-5 text-indigo-500" />
+                        Allocation
+                      </h3>
+                      <div className="flex gap-2">
+                        {COLORS.map((c, i) => (
+                           <div key={i} className="w-2 h-2 rounded-full" style={{backgroundColor: c}}></div>
+                        ))}
+                      </div>
+                    </div>
                     <div className="flex-1 w-full">
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
@@ -212,38 +247,41 @@ const App: React.FC = () => {
                             data={pieData}
                             cx="50%"
                             cy="50%"
-                            innerRadius={60}
-                            outerRadius={80}
-                            paddingAngle={5}
+                            innerRadius={70}
+                            outerRadius={95}
+                            paddingAngle={8}
                             dataKey="value"
+                            stroke="none"
                           >
                             {pieData.map((entry, index) => (
                               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                           </Pie>
-                          <RechartsTooltip />
-                          <Legend verticalAlign="bottom" height={36}/>
+                          <RechartsTooltip 
+                            contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
+                          />
+                          <Legend verticalAlign="bottom" height={36} iconType="circle" />
                         </PieChart>
                       </ResponsiveContainer>
                     </div>
                   </div>
 
                   {/* Future Prediction */}
-                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-[350px] flex flex-col">
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <TrendingUp className="w-5 h-5 text-indigo-500" />
-                      Next Month (5% Increase)
+                  <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 h-[380px] flex flex-col">
+                    <h3 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
+                      <TrendingUp className="w-5 h-5 text-emerald-500" />
+                      Prediction (Next Mo.)
                     </h3>
                     <div className="flex-1 w-full">
                       <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={comparisonData}>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                          <XAxis dataKey="name" />
-                          <YAxis />
-                          <Tooltip />
-                          <Legend />
-                          <Bar dataKey="current" fill="#94a3b8" radius={[4, 4, 0, 0]} name="This Month" />
-                          <Bar dataKey="predicted" fill="#6366f1" radius={[4, 4, 0, 0]} name="Predicted" />
+                        <BarChart data={comparisonData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 600}} />
+                          <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 10}} />
+                          <Tooltip cursor={{fill: '#f8fafc'}} contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} />
+                          <Legend iconType="rect" />
+                          <Bar dataKey="current" fill="#e2e8f0" radius={[6, 6, 0, 0]} name="Current Month" />
+                          <Bar dataKey="predicted" fill="#4f46e5" radius={[6, 6, 0, 0]} name="AI Projected" />
                         </BarChart>
                       </ResponsiveContainer>
                     </div>
@@ -252,35 +290,38 @@ const App: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Alerts */}
-                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                      <AlertTriangle className="w-5 h-5 text-red-500" />
-                      Alerts & Observations
+                  <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                    <h3 className="text-lg font-bold text-gray-800 mb-5 flex items-center gap-2">
+                      <AlertTriangle className="w-5 h-5 text-rose-500" />
+                      Risk Assessment
                     </h3>
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       {advice.alerts.length > 0 ? (
                         advice.alerts.map((alert, i) => (
-                          <div key={i} className="flex gap-3 p-3 bg-red-50 border border-red-100 rounded-lg text-sm text-red-700">
+                          <div key={i} className="flex gap-3 p-4 bg-rose-50 border border-rose-100 rounded-2xl text-sm text-rose-700 font-medium">
                             <ArrowRight className="w-4 h-4 flex-shrink-0 mt-0.5" />
                             {alert}
                           </div>
                         ))
                       ) : (
-                        <div className="text-sm text-gray-500 italic p-3 bg-gray-50 rounded-lg">No critical alerts detected. Good job!</div>
+                        <div className="text-sm text-emerald-600 font-bold p-4 bg-emerald-50 rounded-2xl border border-emerald-100 flex items-center gap-3">
+                          <ShieldCheck className="w-5 h-5" />
+                          Budget health is excellent. No critical risks found.
+                        </div>
                       )}
                     </div>
                   </div>
 
                   {/* Suggestions */}
-                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                    <h3 className="text-lg font-bold text-gray-800 mb-5 flex items-center gap-2">
                       <Lightbulb className="w-5 h-5 text-amber-500" />
-                      Financial Suggestions
+                      Strategic Advice
                     </h3>
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       {advice.suggestions.map((sug, i) => (
-                        <div key={i} className="flex gap-3 p-3 bg-blue-50 border border-blue-100 rounded-lg text-sm text-blue-700">
-                          <Sparkles className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                        <div key={i} className="flex gap-3 p-4 bg-indigo-50 border border-indigo-100 rounded-2xl text-sm text-indigo-700 font-medium group transition-all hover:bg-indigo-100">
+                          <Sparkles className="w-4 h-4 flex-shrink-0 mt-0.5 text-indigo-400" />
                           {sug}
                         </div>
                       ))}
@@ -289,35 +330,38 @@ const App: React.FC = () => {
                 </div>
 
                 {/* Prediction Breakdown */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                  <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
-                    <ShieldCheck className="w-5 h-5 text-green-500" />
-                    Predicted Itemized Expenses
-                  </h3>
+                <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                  <div className="flex items-center justify-between mb-8">
+                    <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                      <ShieldCheck className="w-5 h-5 text-emerald-500" />
+                      Projected Itemization
+                    </h3>
+                    <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider italic">AI Optimized</span>
+                  </div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-                      <p className="text-xs text-gray-500 uppercase font-bold tracking-tighter">Rent</p>
-                      <p className="text-lg font-bold">₹{advice.next_month_prediction.rent}</p>
+                    <div className="p-4 bg-gray-50/50 rounded-2xl border border-gray-100">
+                      <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Rent</p>
+                      <p className="text-xl font-black text-gray-900">₹{advice.next_month_prediction.rent.toLocaleString()}</p>
                     </div>
-                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-                      <p className="text-xs text-gray-500 uppercase font-bold tracking-tighter">Food</p>
-                      <p className="text-lg font-bold">₹{advice.next_month_prediction.food}</p>
+                    <div className="p-4 bg-gray-50/50 rounded-2xl border border-gray-100">
+                      <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Food</p>
+                      <p className="text-xl font-black text-gray-900">₹{advice.next_month_prediction.food.toLocaleString()}</p>
                     </div>
-                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-                      <p className="text-xs text-gray-500 uppercase font-bold tracking-tighter">Travel</p>
-                      <p className="text-lg font-bold">₹{advice.next_month_prediction.travel}</p>
+                    <div className="p-4 bg-gray-50/50 rounded-2xl border border-gray-100">
+                      <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Travel</p>
+                      <p className="text-xl font-black text-gray-900">₹{advice.next_month_prediction.travel.toLocaleString()}</p>
                     </div>
-                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-                      <p className="text-xs text-gray-500 uppercase font-bold tracking-tighter">Loans</p>
-                      <p className="text-lg font-bold">₹{advice.next_month_prediction.loans}</p>
+                    <div className="p-4 bg-gray-50/50 rounded-2xl border border-gray-100">
+                      <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Loans</p>
+                      <p className="text-xl font-black text-gray-900">₹{advice.next_month_prediction.loans.toLocaleString()}</p>
                     </div>
-                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-                      <p className="text-xs text-gray-500 uppercase font-bold tracking-tighter">Wants</p>
-                      <p className="text-lg font-bold">₹{advice.next_month_prediction.wants}</p>
+                    <div className="p-4 bg-amber-50/50 rounded-2xl border border-amber-100">
+                      <p className="text-[10px] text-amber-500 uppercase font-black tracking-widest mb-1">Wants</p>
+                      <p className="text-xl font-black text-amber-600">₹{advice.next_month_prediction.wants.toLocaleString()}</p>
                     </div>
-                    <div className="p-3 bg-indigo-50 rounded-xl border border-indigo-100">
-                      <p className="text-xs text-indigo-500 uppercase font-bold tracking-tighter">Next Sav.</p>
-                      <p className="text-lg font-bold text-indigo-700">₹{advice.next_month_prediction.estimated_savings}</p>
+                    <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                      <p className="text-[10px] text-emerald-500 uppercase font-black tracking-widest mb-1">Next Sav.</p>
+                      <p className="text-xl font-black text-emerald-700">₹{advice.next_month_prediction.estimated_savings.toLocaleString()}</p>
                     </div>
                   </div>
                 </div>
@@ -327,9 +371,13 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      {/* Persistent CTA - Info section at bottom for desktop, floating at top for mobile if needed, but we used standard responsive flow here */}
-      <footer className="mt-12 text-center text-gray-400 text-sm">
-        <p>© {new Date().getFullYear()} AI Budget Planner • Powered by Gemini 3</p>
+      <footer className="mt-12 text-center text-gray-400 text-xs font-bold uppercase tracking-widest">
+        <div className="flex items-center justify-center gap-4 mb-4 opacity-50">
+           <div className="h-px w-12 bg-gray-300"></div>
+           <Wallet className="w-4 h-4" />
+           <div className="h-px w-12 bg-gray-300"></div>
+        </div>
+        <p>© {new Date().getFullYear()} AI Budget Advisor • Intelligence by Gemini 3</p>
       </footer>
     </div>
   );
